@@ -276,8 +276,11 @@ function MailBounceSnoop() {
     this.status = this.output.length ? this.output[0]['status'] : '';
     this.recipient = this.output.length ? this.output[0]['recipient'] : '';
     this.messageid = this.output.length ? this.output[0]['messageid'] : '';
-    this.output[0]['is'] = this.simpleCheckResponse();
-    return this.output[0];
+    if (this.output && this.output[0]) {
+        this.output[0]['is'] = this.simpleCheckResponse();
+        return this.output[0];
+    }
+    return [];
   };
 
   // this is the most commonly used public method
