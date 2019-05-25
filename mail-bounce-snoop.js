@@ -641,7 +641,7 @@ function MailBounceSnoop() {
   this.get_action_from_status_code = function (code) {
     if (code === '') return '';
     let ret = this.format_status_code(code);
-    let stat = parseInt(ret['code'][0], 10);
+    let stat = ret['code'] ? parseInt(ret['code'][0], 10) : null;
     switch (stat) {
       case (2):
         return 'success';
