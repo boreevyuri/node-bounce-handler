@@ -18,7 +18,7 @@ module.exports = class Email {
   setMessage(plainMessage) {
     this.plainMessage = plainMessage.replace(/\r\n/g, "\n"); // line returns 1
     this.plainMessage = this.plainMessage.replace(/\n/g, "\r\n"); // line returns 2
-    this.plainMessage = this.plainMessage.replace(/=\r\n /g, " "); // remove MIME line breaks
+    this.plainMessage = this.plainMessage.replace(/=\r\n /g, "= "); // remove MIME line breaks
     this.plainMessage = this.plainMessage.replace(/=3D/g, "="); // equals sign =
     this.plainMessage = this.plainMessage.replace(/=09/g, "  "); // tabs
   }
