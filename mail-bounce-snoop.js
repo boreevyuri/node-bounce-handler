@@ -180,6 +180,10 @@ function MailBounceSnoop() {
       this.output[i]['action'] = rpt_hash['per_recipient'][i]['Action'] ? rpt_hash['per_recipient'][i]['Action'] : '';
       // TODO: Review MessageId associated with each output.
       this.output[i]['messageid'] = rpt_head['MessageId'] ? rpt_head['MessageId'] : '';
+      this.output[i]['subject'] = rpt_head['Subject'] ? libmime.decodeWords(rpt_head['Subject']) : '';
+      this.output[i]['from'] = rpt_head['From'] ? this.parse_subject_header(rpt_head['From']) : '';
+      this.output[i]['date'] = rpt_head['Date'] ? rpt_head['Date'].toString() : ''
+      this.output[i]['list'] = rpt_head['List-id'] ? rpt_head['List-id'].toString() : ''
     }
   };
 
@@ -751,6 +755,16 @@ function MailBounceSnoop() {
 
     return output;
   };
+
+  this.parse_subject_header = function (subject) {
+    if (!subject) return ''
+    try {
+      subject = libmime.decodeWords(subject)
+    } catch (E) {
+      // ignore, keep as is
+    }
+    return subject
+  }
 }
 
 /** END class MailBounceSnoop **/
