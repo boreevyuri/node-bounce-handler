@@ -35,16 +35,15 @@
   "scripts": {
     "postversion": "git push && git push --tags",
     "test": "mocha test/**/*.js",
-    "posttest": "npm run coverage",
-    "coverage": "istanbul cover _mocha"
+    "coverage": "nyc npm run test"
   },
   "dependencies": {
     "libmime": "^2.0.3"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.4",
-    "chai": "^4.1.2",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.2.0"
+    "@types/chai": "^4.2.4",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^14.1.1"
   }
 }
