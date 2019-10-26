@@ -20,7 +20,7 @@ describe("It get info about emails with callback", () => {
     readFiles(folder, (data) => {
       detect.getBouncedEmailDetail(data.toString(), (result) => {
         expect(result.is).to.be.string('bounce');
-        expect(Object.keys(result).length).to.be.eq(5);
+        expect(Object.keys(result).length).to.be.eq(6);
       });
     });
   });
@@ -30,7 +30,7 @@ describe("It get info about emails with callback", () => {
     readFiles(folder, (data) => {
       detect.getBouncedEmailDetail(data.toString(), (result) => {
         expect(result.is).to.be.string('FBL');
-        expect(Object.keys(result).length).to.be.eq(5);
+        expect(Object.keys(result).length).to.be.eq(6);
       });
     });
   });
@@ -40,7 +40,7 @@ describe("It get info about emails with callback", () => {
     readFiles(folder, (data) => {
       detect.getBouncedEmailDetail(data.toString(), (result) => {
         expect(result.is).to.be.string('OK');
-        expect(Object.keys(result).length).to.be.eq(5);
+        expect(Object.keys(result).length).to.be.eq(6);
       });
     });
   });
@@ -58,7 +58,7 @@ describe("It get info about emails with promise", () => {
       Promise.all(promises).then(results => {
         results.forEach(result => {
           expect(result.is).to.be.string('bounce');
-          expect(Object.keys(result).length).to.be.eq(5);
+          expect(Object.keys(result).length).to.be.eq(6);
         });
         done();
       })
@@ -76,7 +76,7 @@ describe("It get info about emails with promise", () => {
       Promise.all(promises).then(results => {
         results.forEach(result => {
           expect(result.is).to.be.string('FBL');
-          expect(Object.keys(result).length).to.be.eq(5);
+          expect(Object.keys(result).length).to.be.eq(6);
         });
 
         done();
@@ -95,7 +95,7 @@ describe("It get info about emails with promise", () => {
       Promise.all(promises).then(results => {
         results.forEach(result => {
           expect(result.is).to.be.string('OK');
-          expect(Object.keys(result).length).to.be.eq(5);
+          expect(Object.keys(result).length).to.be.eq(6);
         });
 
         done();

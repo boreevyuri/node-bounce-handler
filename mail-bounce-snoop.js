@@ -70,6 +70,7 @@ function MailBounceSnoop() {
   this.output.push({
     'action': '',
     'status': '',
+    'message': '',
     'recipient': '',
     'messageid': '',
     'is': ''
@@ -174,6 +175,8 @@ function MailBounceSnoop() {
       this.output[i]['recipient'] = this.find_recipient(rpt_hash['per_recipient'][i]);
       let mycode = rpt_hash['per_recipient'][i]['Status'] ? this.format_status_code(rpt_hash['per_recipient'][i]['Status']) : '';
       this.output[i]['status'] = mycode['code'] ? mycode['code'].join('.') : '';
+      let errorMessage = rpt_hash['per_recipient'][i]['Diagnostic-code']['text'] ? this.format_status_code(rpt_hash['per_recipient'][i]['Diagnostic-code']['text'] ) : ''
+      this.output[i]['message'] = errorMessage['text'] ? errorMessage['text'] : ''
       this.output[i]['action'] = rpt_hash['per_recipient'][i]['Action'] ? rpt_hash['per_recipient'][i]['Action'] : '';
       // TODO: Review MessageId associated with each output.
       this.output[i]['messageid'] = rpt_head['MessageId'] ? rpt_head['MessageId'] : '';
@@ -184,7 +187,7 @@ function MailBounceSnoop() {
     //  Busted Exim MTA
     //  Up to 50 email addresses can be listed on each header.
     //  There can be multiple X-Failed-Recipients: headers. - (not supported)
-    this.setOutput(mail.getHeader('x-failed-recipients').split(/\,/));
+    this.setOutput(mail.getHeader('x-failed-recipients').split(/,/));
   };
 
   this.ohGodItCouldBeAnythingAction = function () {
@@ -390,7 +393,7 @@ function MailBounceSnoop() {
       // search for RFC821 return code
       // thanks to mark.tolmangmail.com
       // Maybe at some point it should have it's own place within the main parsing scheme (at line 88)
-      matches = line.match(/\]?: ([45][01257][012345]) /);
+      matches = line.match(/]?: ([45][01257][012345]) /);
       if (!matches) {
         matches = line.match(/^([45][01257][012345]) (?:.*?)(?:denied|inactive|deactivated|rejected|disabled|unknown|no such|not (?:our|activated|a valid))+/i);
       }
@@ -669,7 +672,7 @@ function MailBounceSnoop() {
   };
 
   this.is_a_bounce = function (mail) {
-    if (mail.hasHeader('subject') && mail.getHeader('subject').match(/(mail delivery failed|failure notice|warning: message|delivery status notif|delivery failure|delivery problem|spam eater|returned mail|undeliverable|returned mail|delivery errors|mail status report|mail system error|failure delivery|delivery notification|delivery has failed|undelivered mail|returned email|returning message to sender|returned to sender|message delayed|mdaemon notification|mailserver notification|mail delivery system|nondeliverable mail|mail transaction failed)|auto.{0,20}reply|vacation|(out|away|on holiday).*office/i)) return true;
+    if (mail.hasHeader('subject') && mail.getHeader('subject').match(/(mail delivery failed|failure notice|warning: message|delivery status notif|delivery failure|delivery problem|spam eater|undeliverable|returned mail|delivery errors|mail status report|mail system error|failure delivery|delivery notification|delivery has failed|undelivered mail|returned email|returning message to sender|returned to sender|message delayed|mdaemon notification|mailserver notification|mail delivery system|nondeliverable mail|mail transaction failed)|auto.{0,20}reply|vacation|(out|away|on holiday).*office/i)) return true;
     if (mail.hasHeader('precedence') && mail.getHeader('precedence').match(/auto_reply/)) return true;
 
     if (mail.hasHeader('from') && mail.getHeader('from').match(/^(postmaster|mailer-daemon)\@?/i)) {
