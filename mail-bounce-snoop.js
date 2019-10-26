@@ -619,12 +619,12 @@ function MailBounceSnoop() {
   this.format_status_code = function (code) {
     code = (code || '').toString();
     let ret = {};
-    let matches = code.match(/([245])\.([01234567])\.([012345678])(.*)/);
+    let matches = code.match(/([245])\.([01234567])\.([012345678]) ?(.*)/);
     if (matches) {
       ret['code'] = [matches[1], matches[2], matches[3]];
       ret['text'] = matches[4];
     } else {
-      matches = code.match(/([245])([01234567])([012345678])(.*)/);
+      matches = code.match(/([245])([01234567])([012345678]) ?(.*)/);
       if (matches) {
         ret['code'] = [matches[1], matches[2], matches[3]];
         ret['text'] = matches[4];
